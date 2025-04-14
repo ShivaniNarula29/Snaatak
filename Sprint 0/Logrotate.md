@@ -77,15 +77,7 @@ sudo logrotate -f /etc/logrotate.d/myapp
 
 ---
 
-### 🕒 7. Cron Schedule
-Logrotate runs via cron:
-```bash
-cat /etc/cron.daily/logrotate
-```
-
----
-
-### 📊 8. Verifying Log Rotation
+### 📊 7. Verifying Log Rotation
 After rotation, check:
 ```bash
 ls -l /var/log/myapp/
@@ -121,6 +113,5 @@ app.log-2025-04-13.gz
 ### 📘 References
 
 - `man logrotate`
-- Ubuntu docs
-- `/usr/share/doc/logrotate/examples/`
+- https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/#getting-started-with-logrotate
 
