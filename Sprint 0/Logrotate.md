@@ -78,23 +78,25 @@ Create a config: `/etc/logrotate.d/myapp`
 
 ### 🧪 6. Test Logrotate Manually
 🧪 a) Dry Run (No actual change):
-
+```bash
 sudo logrotate -d /etc/logrotate.d/myapp
+```
 
 🧪 b) Force Rotation:
-
+```bash
 sudo logrotate -f /etc/logrotate.d/myapp
-
+```
 📝 Note: If the log file is empty and notifempty is set, logrotate will not rotate the file, even with -f.
 
 ✅ c) Forcibly Test Rotation When Log is Empty
 To test rotation even when the log is empty, write a dummy log entry:
-
+```bash
 echo "Test log entry - $(date)" | sudo tee -a /var/log/myapp/myapp.log
-
+```
 Then force rotation:
+```bash
 sudo logrotate -f /etc/logrotate.d/myapp
-
+```
 This ensures the log file is non-empty, allowing rotation to proceed even with notifempty.
 
 ---
