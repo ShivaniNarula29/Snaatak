@@ -122,6 +122,7 @@ app.log-2025-04-13.gz
 | Logs not rotating | Check paths, permissions |
 | Rotation too frequent | Verify interval and timestamps |
 | App not logging | Use `create` and `postrotate` to reopen file handles |
+| Rotation skipped	| Ensure log is not empty if notifempty is set |
 
 ---
 
