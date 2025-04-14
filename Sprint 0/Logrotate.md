@@ -69,6 +69,7 @@ Create a config: `/etc/logrotate.d/myapp`
     notifempty
 
     # After rotation, create a new log file with these permissions and ownership
+    # adm is a standard group for managing log file access securely.
     create 0640 root adm
 }
 ```
