@@ -48,19 +48,19 @@ logrotate --version
 ### 📌 5. Example Use Case (Custom App Logs)
 Create a config: `/etc/logrotate.d/myapp`
 ```conf
-/var/log/myapp/app.log {
-    daily
-    rotate 7
-    compress
-    delaycompress
-    missingok
-    notifempty
-    create 0640 root adm
-    dateext
+/var/log/myapp/myapp.log {
+    daily                  # Rotate the log file daily
+    rotate 5               # Keep a maximum of 5 old log files
+    missingok              # Do not show an error if the log file is missing
+    compress               # Compress the old log files (e.g., to .gz)
+    delaycompress          # Delay compression by one rotation cycle (i.e., compress from .2 onward)
+    notifempty             # Do not rotate the log file if it is empty
+    create 0640 root adm   # After rotation, create a new log file with these permissions and ownership
     postrotate
-        systemctl reload myapp.service > /dev/null 2>&1 || true
+        systemctl reload myapp  # After rotation, reload the "myapp" service
     endscript
 }
+
 ```
 
 ---
