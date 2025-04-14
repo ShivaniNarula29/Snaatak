@@ -91,7 +91,7 @@ app.log-2025-04-13.gz
 
 ---
 
-### 🛠️ 9. Troubleshooting Tips
+### 🛠️ 8. Troubleshooting Tips
 
 | Issue | Solution |
 |-------|----------|
@@ -101,7 +101,7 @@ app.log-2025-04-13.gz
 
 ---
 
-### 📦 10. Best Practices
+### 📦 9. Best Practices
 
 - Use `compress` and `delaycompress` to save space.
 - Always test with `-d` before deploying configs.
