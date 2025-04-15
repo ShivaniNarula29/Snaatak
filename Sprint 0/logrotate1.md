@@ -105,7 +105,6 @@ sudo logrotate -d /etc/logrotate.d/myapp1
 ```bash
 sudo logrotate -f /etc/logrotate.d/myapp1
 ```
-📝 Note: If the log file is empty and notifempty is set, logrotate will not rotate the file, even with -f.
 
 Now check:
 
