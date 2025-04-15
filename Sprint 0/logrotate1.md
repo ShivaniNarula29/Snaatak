@@ -33,7 +33,7 @@ Let’s assume your app writes logs to `/var/log/myapp1/myapp1.log`.
 ```bash
 sudo mkdir -p /var/log/myapp1
 sudo touch /var/log/myapp1/myapp1.log
-sudo chown root:root /var/log/myapp1/myapp1.log
+sudo chown root:adm /var/log/myapp1/myapp1.log
 ```
 
 ---
