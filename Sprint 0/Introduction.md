@@ -12,14 +12,13 @@
                                 
 ### ✅ What is Gunicorn?
 
+The standard web servers such as Apache, and NGINX don’t know how to communicate with your Python applications. Web servers receive the request from a client(Web browser) and return a response. The web server doesn’t create the response, it only returns the response. So, a server needs to talk with a Web Application that can create a response.
+
+And what Web Application can do? Anything your project needs it to do. I am sure you all have cool ideas to release to the world. We almost live on the web these days. So, what you build will need to communicate to the web servers in order to reach your users/audience over the internet. Therefore, we need an architecture, sort of a protocol, everyone agrees on, to bridge the request-response cycle between your web server and web application.
+
+WSGI comes into the picture because it basically provides that bridge of your need to communicate between your Web Server and Web Application. WSGI (Web Server Gateway Interface), is a set of rules which allow a WSGI compliant server to work with a WSGI compliant Python application. WSGI also handles scaling for web servers to be able to handle thousands of requests so you don’t have to think about accepting multiple requests at a time.
+
 **Gunicorn** (Green Unicorn) is a **production-grade WSGI HTTP server** designed to serve Python web applications. It acts as a bridge between your web application (built with frameworks like **Django**, **Flask**, or **FastAPI**) and a **web server** such as **Nginx** or **Apache**.
-
-Rather than relying on the default development server (which is not suitable for real-world traffic), Gunicorn efficiently manages incoming requests and distributes them to multiple workers for parallel processing.
-
-In simpler terms, Gunicorn helps:
-- Launch your Python web app for public or internal access.
-- Handle traffic smoothly even when multiple users access the app.
-- Work seamlessly with other tools (like Nginx) for speed and security.
 
 ![image](https://github.com/user-attachments/assets/77554584-461e-440a-8fc3-2c678baacd9b)
 
@@ -30,6 +29,11 @@ From the diagram, you can see:
 - **Your Python App** doesn’t talk directly to the internet.
 - **Gunicorn** runs your app and manages **multiple worker processes**.
 - It passes responses to **Nginx**, which delivers them to users.
+
+In simpler terms, Gunicorn helps:
+- Launch your Python web app for public or internal access.
+- Handle traffic smoothly even when multiple users access the app.
+- Work seamlessly with other tools (like Nginx) for speed and security.
 
 ---
 
