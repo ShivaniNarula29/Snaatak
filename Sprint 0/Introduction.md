@@ -3,8 +3,8 @@
 ## 🐍 Common Stack | Application | Python | Gunicorn
 
 ---
+https://raw.githubusercontent.com/ShivaniNarula29/gunicorn/refs/heads/master/docs/logo/gunicorn.png
                                 
-                                (https://raw.githubusercontent.com/ShivaniNarula29/gunicorn/refs/heads/master/docs/logo/gunicorn.png)
 ### ✅ What is Gunicorn?
 
 **Gunicorn** (Green Unicorn) is a **production-grade WSGI HTTP server** designed to serve Python web applications. It acts as a bridge between your web application (built with frameworks like **Django**, **Flask**, or **FastAPI**) and a **web server** such as **Nginx** or **Apache**.
