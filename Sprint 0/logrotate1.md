@@ -49,7 +49,7 @@ sudo nano /etc/logrotate.d/myapp1
 Paste the following configuration:
 
 ```conf
-/var/log/myapp/myapp.log {
+/var/log/myapp1/myapp1.log {
 
     # Rotate the log file daily
     daily
