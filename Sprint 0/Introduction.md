@@ -3,7 +3,8 @@
 ## 🐍 Common Stack | Application | Python | Gunicorn
 
 ---
-https://raw.githubusercontent.com/ShivaniNarula29/gunicorn/refs/heads/master/docs/logo/gunicorn.png
+
+![image](https://github.com/user-attachments/assets/890340a1-ed5e-4add-bdbb-3c49bd099890)
                                 
 ### ✅ What is Gunicorn?
 
