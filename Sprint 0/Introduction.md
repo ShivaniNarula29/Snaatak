@@ -79,10 +79,10 @@ Gunicorn addresses these issues and provides a production-ready deployment. Here
 Gunicorn is a **critical part** of deploying Python web applications. It transforms your app from a simple script to a **reliable, concurrent, and production-grade service**.  
 
 It enables:
-- 🔹 High concurrency
-- 🔹 Smooth integration with reverse proxies
-- 🔹 Fast and safe deployments
-- 🔹 Secure and reliable operations
+ 🔹 High concurrency
+ 🔹 Smooth integration with reverse proxies
+ 🔹 Fast and safe deployments
+ 🔹 Secure and reliable operations
 
 ---
 
