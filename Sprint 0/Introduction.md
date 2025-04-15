@@ -4,6 +4,8 @@
 
 ---
 
+                            ![image](https://github.com/user-attachments/assets/23548cbb-a203-4b28-a788-611b6a88313b)
+
 ### ✅ What is Gunicorn?
 
 **Gunicorn** (Green Unicorn) is a **production-grade WSGI HTTP server** designed to serve Python web applications. It acts as a bridge between your web application (built with frameworks like **Django**, **Flask**, or **FastAPI**) and a **web server** such as **Nginx** or **Apache**.
