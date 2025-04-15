@@ -49,13 +49,28 @@ sudo nano /etc/logrotate.d/myapp1
 Paste the following configuration:
 
 ```conf
-/var/log/myapp1/myapp1.log {
+/var/log/myapp/myapp.log {
+
+    # Rotate the log file daily
     daily
+
+    # Keep a maximum of 5 old log files
     rotate 5
+
+    # Do not show an error if the log file is missing
     missingok
+
+    # Compress the old log files
     compress
+
+    # Delay compression by one rotation cycle
     delaycompress
+
+    # Do not rotate the log file if it is empty
     notifempty
+
+    # After rotation, create a new log file with these permissions and ownership
+    # adm is a standard group for managing log file access securely.
     create 0640 root adm
 }
 ```
