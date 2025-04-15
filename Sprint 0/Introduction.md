@@ -4,7 +4,7 @@
 
 ---
 
-                            ![image](https://github.com/user-attachments/assets/23548cbb-a203-4b28-a788-611b6a88313b)
+                    ![image](https://github.com/user-attachments/assets/b76dbe4e-4756-423b-8b35-2da437d23133)
 
 ### ✅ What is Gunicorn?
 
