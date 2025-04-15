@@ -144,7 +144,32 @@ myapp1.log.2.gz
 ```
 
 ---
+### 🛠️ Troubleshooting Tips
 
+| Issue | Solution |
+|-------|----------|
+| Logs not rotating | Check paths, permissions |
+| Rotation too frequent | Verify interval and timestamps |
+| App not logging | Use `create` and `postrotate` to reopen file handles |
+| Rotation skipped	| Ensure log is not empty if notifempty is set |
+
+---
+
+### 📦 Best Practices
+
+- Use `compress` and `delaycompress` to save space.
+- Always test with `-d` before deploying configs.
+- Set retention based on space and compliance.
+- Reload app using `postrotate` if required.
+
+---
+
+### 📘 References
+
+- `man logrotate`
+- https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/#getting-started-with-logrotate
+
+---
 ## 🛑 Common Issues
 
 | Problem | Fix |
