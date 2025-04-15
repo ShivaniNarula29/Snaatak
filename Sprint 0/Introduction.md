@@ -2,6 +2,10 @@
 
 ## 🐍 Common Stack | Application | Python | Gunicorn
 
+| Created | Version | Author | Comment | Reviewer |
+| --- | --- | --- | --- | --- |
+| 14-04-2025 | V1 | Shivani Narula |  | Siddharth Pawar |
+
 ---
 
 ![image](https://github.com/user-attachments/assets/890340a1-ed5e-4add-bdbb-3c49bd099890)
@@ -66,3 +70,19 @@ It enables:
 - 🔹 Smooth integration with reverse proxies
 - 🔹 Fast and safe deployments
 - 🔹 Secure and reliable operations
+
+---
+
+### 📘 References
+
+- https://en.wikipedia.org/wiki/Gunicorn#
+- https://docs.gunicorn.org/en/stable/
+- [https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/#getting-started-with-logrotate](https://medium.com/@serdarilarslan/what-is-gunicorn-5e674fff131b)
+
+---
+
+## 📇 Contacts
+
+| Name | Email Address |
+| --- | --- |
+| Shivani Narula | shivani.narula.snaatak@mygurukulam.co |
