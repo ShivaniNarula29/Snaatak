@@ -1,16 +1,13 @@
 
-# ✅ Logrotate Setup on Ubuntu (Beginner Friendly)
+## ✅ SOP: Configuring and Managing Log Rotation using Logrotate on Ubuntu
 
-This guide will help you configure **automatic log rotation** on Ubuntu using Logrotate. This is useful to prevent log files from growing too large.
+### 📌 Objective:
+To configure and manage automatic log rotation on Ubuntu systems using **Logrotate**, ensuring logs are rotated periodically, retained for a defined duration, and storage is optimized.
 
 ---
 
-## 📌 What is Logrotate?
-
-**Logrotate** is a tool used to manage and rotate log files automatically. It helps:
-- Prevent logs from filling up the disk
-- Compress old logs
-- Keep only a limited number of backups
+### 📁 1. What is Logrotate?
+**Logrotate** is a Linux utility that manages the automatic rotation and compression of log files. It prevents log files from consuming excessive disk space by rotating, compressing, and eventually deleting old logs.
 
 ---
 
