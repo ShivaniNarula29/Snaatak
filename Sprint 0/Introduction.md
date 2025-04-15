@@ -32,6 +32,8 @@ Before getting started with Gunicorn, make sure your system has the following:
 - pip, Python’s package manager (included with Python 3.x)
 - Experience with a Python web framework like Flask for testing Gunicorn
 
+---
+
 ### ❓ Why Use Gunicorn?
 
 Python web frameworks come with development servers that are:
