@@ -20,6 +20,7 @@ WSGI comes into the picture because it basically provides that bridge of your ne
 
 **Gunicorn** (Green Unicorn) is a **production-grade WSGI HTTP server** designed to serve Python web applications. It acts as a bridge between your web application (built with frameworks like **Django**, **Flask**, or **FastAPI**) and a **web server** such as **Nginx** or **Apache**.
 
+
 ![image](https://github.com/user-attachments/assets/77554584-461e-440a-8fc3-2c678baacd9b)
 
 
