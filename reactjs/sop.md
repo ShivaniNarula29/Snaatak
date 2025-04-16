@@ -36,17 +36,6 @@ This document provides a detailed Standard Operating Procedure (SOP) for setting
 ReactJS, maintained by Meta (Facebook), is a declarative, efficient, and flexible JavaScript library for building user interfaces.
 
 ---
-
-## ❓ Why Use npm to Set Up React?
-npm is the default package manager for Node.js and is widely used in JavaScript development. Using npm to install and manage React ensures:
-
-- Access to the latest React features
-- Easy project setup using `create-react-app`
-- Simplified dependency management
-- Vast ecosystem of libraries and tools
-
----
-
 ## 📁 What is ReactJS?
 ReactJS is a JavaScript library used for building interactive user interfaces. It allows developers to create large web applications that can change data, without reloading the page.
 
@@ -55,6 +44,16 @@ ReactJS is a JavaScript library used for building interactive user interfaces. I
 - Virtual DOM for optimized rendering
 - Unidirectional data flow
 - JSX for writing HTML in JavaScript
+
+---
+
+## ❓ Why Use npm to Set Up React?
+npm is the default package manager for Node.js and is widely used in JavaScript development. Using npm to install and manage React ensures:
+
+- Access to the latest React features
+- Easy project setup using `create-react-app`
+- Simplified dependency management
+- Vast ecosystem of libraries and tools
 
 ---
 
