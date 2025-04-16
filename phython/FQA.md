@@ -154,8 +154,14 @@ Goal: Keep logs small, neat, and manageable — automatically!
 
 
 Question | Answer
+---
+
 Kya logrotate auto run hota hai?                      | ✅ Haan, daily via cron job
+
 Kaun sa file usko chalata hai?                        | /etc/cron.daily/logrotate
+
 Kis config file ko use karta hai?                     | /etc/logrotate.conf (ye file /etc/logrotate.d/ ko bhi include karti hai)
+
 Usko kaise pata chalta hai rotate karna hai ya nahi?  | /var/lib/logrotate/status file ke timestamps se
+
 System off ho toh?                                    | anacron ensure karta hai job next boot pe chale
