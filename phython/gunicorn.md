@@ -1,5 +1,7 @@
 # 🐍 Gunicorn Intro Documentation
 
+## 👤 Author Information
+
 | Created     | Version | Author          | Comment        | Reviewer        |
 |-------------|---------|------------------|----------------|------------------|
 | 15-04-2025  | V1      | Shivani Narula   | Internal review | Siddharth Pawar  |
