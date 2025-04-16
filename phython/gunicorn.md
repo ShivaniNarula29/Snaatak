@@ -31,7 +31,7 @@
 
 ## 🌟 Introduction
 
-Gunicorn (Green Unicorn) is a **production-ready WSGI HTTP server** for running Python web applications. It connects your app (built with Flask, Django, FastAPI, etc.) to the web via a reverse proxy like Nginx.
+Gunicorn (Green Unicorn) is a **production-ready WSGI HTTP server** designed to serve Python web applications. It acts as a bridge between your web application (built with frameworks like Django, Flask, or FastAPI) and a web server such as Nginx or Apache.
 
 ---
 
