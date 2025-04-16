@@ -49,17 +49,14 @@ Make sure your system has:
 
 ---
 
-## ✅ Why Use Gunicorn?
+## 🤔 Why Gunicorn?
 
-| Reason           | Explanation                                                  |
-|------------------|--------------------------------------------------------------|
-| 🚀 Performance    | Handles high traffic with multiple worker processes          |
-| ⚙️ WSGI Support    | Works with all WSGI-compatible Python frameworks             |
-| 🔁 Concurrency    | Manages many simultaneous requests smoothly                  |
-| 🔐 Security       | Can be placed behind Nginx for SSL & protection              |
-| 🔄 Reliability    | Restarts workers on failure; supports graceful reloads       |
-| 🔧 Configurable   | Easy to adjust workers, ports, timeouts, and logs            |
-| 📦 Lightweight    | Small memory usage; great for containers & microservices     |
+- 🚀 **Performance**: Handles many requests simultaneously with multiple worker processes.
+- 🔗 **Compatibility**: Works with most Python frameworks (Flask, Django, FastAPI) and web servers (Nginx, Apache).
+- ⚙️ **Ease of Use**: Simple to install, configure, and run from the command line.
+- 🔁 **Reliability**: Trusted in production environments across the industry.
+- 🔒 **Security**: Can be secured behind reverse proxies for HTTPS, rate limiting, etc.
+- 🔧 **Flexibility**: Supports various worker types (sync, async, threaded) and custom configurations.
 
 ---
 
