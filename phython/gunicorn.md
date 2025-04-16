@@ -1,14 +1,32 @@
 # 🐍 Gunicorn Intro Documentation
 
-| Created     | Version | Author          | Comment | Reviewer        |
-|-------------|---------|------------------|---------|------------------|
-| 15-04-2025  | V1      | Shivani Narula   |  Internal review    | Siddharth Pawar  |
+| Created     | Version | Author          | Comment        | Reviewer        |
+|-------------|---------|------------------|----------------|------------------|
+| 15-04-2025  | V1      | Shivani Narula   | Internal review | Siddharth Pawar  |
 
 ---
 
 ![image](https://github.com/user-attachments/assets/890340a1-ed5e-4add-bdbb-3c49bd099890)
 
 ---
+
+## 📑 Table of Contents
+
+- [🌟 Introduction](#-introduction)
+- [🕰️ History](#-history)
+- [🔧 Prerequisites](#-prerequisites)
+- [❓ What is Gunicorn?](#-what-is-gunicorn)
+- [🔍 Architecture View](#-architecture-view)
+- [🤔 Why Gunicorn?](#-why-gunicorn)
+- [⚙️ Key Features](#-key-features)
+- [🛠️ Use Cases](#-use-cases)
+- [🧩 Real-World Scenario](#-real-world-scenario)
+- [🧠 In Summary](#-in-summary)
+- [🔗 References](#-references)
+- [📇 Contact](#-contact)
+
+---
+
 ## 🌟 Introduction
 
 Gunicorn (Green Unicorn) is a **production-ready WSGI HTTP server** for running Python web applications. It connects your app (built with Flask, Django, FastAPI, etc.) to the web via a reverse proxy like Nginx.
@@ -33,6 +51,8 @@ Make sure your system has:
 ---
 
 ## ❓ What is Gunicorn?
+
+Gunicorn is a WSGI HTTP server for Python. It works by serving your web application and efficiently managing multiple requests from users.
 
 - A **WSGI-compliant HTTP server** for Python web apps  
 - Manages **multiple worker processes**  
@@ -128,3 +148,4 @@ Gunicorn is a **crucial component** of production-grade Python deployments:
 | Name            | Email                                       |
 |-----------------|---------------------------------------------|
 | Shivani Narula  | shivani.narula.snaatak@mygurukulam.co       |
+
