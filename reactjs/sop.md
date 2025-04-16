@@ -1,7 +1,7 @@
 
 # # 🚀 React JS | SOP's for npm
 
-![image](https://github.com/user-attachments/assets/21195be4-682d-4a92-9b88-8633d9c8e044)
+![image](https://github.com/user-attachments/assets/f434b24c-9ec6-41f1-9e06-a5e7664a1183)
 
 ---
 
