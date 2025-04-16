@@ -39,12 +39,6 @@ ReactJS, maintained by Meta (Facebook), is a declarative, efficient, and flexibl
 ## 📁 What is ReactJS?
 ReactJS is a JavaScript library used for building interactive user interfaces. It allows developers to create large web applications that can change data, without reloading the page.
 
-**Key Features:**
-- Component-based architecture
-- Virtual DOM for optimized rendering
-- Unidirectional data flow
-- JSX for writing HTML in JavaScript
-
 ---
 
 ## ❓ Why Use npm to Set Up React?
