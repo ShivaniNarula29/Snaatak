@@ -165,3 +165,16 @@ Kis config file ko use karta hai?                     | /etc/logrotate.conf (ye 
 Usko kaise pata chalta hai rotate karna hai ya nahi?  | /var/lib/logrotate/status file ke timestamps se
 
 System off ho toh?                                    | anacron ensure karta hai job next boot pe chale
+
+3. missingok
+Agar log file exist nahi karti, toh error mat do.
+
+Isse rotation fail nahi hoti agar file temporarily missing hai.
+
+🧪 Example:
+
+Suppose /var/log/myapp1/myapp1.log file accidentally delete ho gayi.
+
+Jab logrotate chalta hai, tab bhi koi error nahi aayega, woh silently skip kar dega.
+
+
