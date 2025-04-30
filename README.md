@@ -122,23 +122,7 @@ Liquibase is an open-source database schema change management tool. It helps dev
 ![image](https://github.com/user-attachments/assets/6155a2af-79c7-4494-9768-c8116d2c6105)
 
 
-### 1. Install Liquibase
-
-#### CLI Installation
-```bash
-curl -LO https://github.com/liquibase/liquibase/releases/download/v4.23.2/liquibase-4.23.2.tar.gz
-tar -xvzf liquibase-4.23.2.tar.gz
-export PATH=$PATH:/path/to/liquibase
-```
-
-#### Docker Option
-```bash
-docker pull liquibase/liquibase
-```
-
----
-
-### 2. Create Project Structure
+### 2. For Connecting with DB
 
 ```bash
 mkdir liquibase-poc && cd liquibase-poc
@@ -216,7 +200,6 @@ liquibase rollbackCount 1
 |----------------|--------------------------------------------------------|
 | Backup         | DB snapshot before Liquibase run (e.g., `pg_dump`)     |
 | Rollback       | Use `rollback` tag or Liquibase rollback commands      |
-| CI/CD Safety   | Implement rollback in your pipeline upon failure       |
 | ChangeSet Design | Include `<rollback>` inside each `changeSet`         |
 
 Example:
