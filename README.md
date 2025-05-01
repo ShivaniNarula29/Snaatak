@@ -25,7 +25,7 @@
 - [Backup and Rollback Strategy](#backup-and-rollback-strategy)  
 - [Conclusion](#conclusion)  
 - [Contact Information](#contact-information)  
-- [References](#references)
+- [Reference Table](#reference-table)
 
 ---
 
@@ -81,90 +81,54 @@ Liquibase is an open-source database schema change management tool. It helps dev
  Kindly use this documentation to install a PostgresSQL DB.
  👉 **References here**: [Install PostgresSql](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-86-Vardaan/ot-ms-understanding/postgressql/poc/README.md)
 
- ---
+---
 ### 3. Install Liquibase
->
->➡️ Import the Liquibase GPG key and repository:
+
+➡️ Import the Liquibase GPG key and repository:
 >
 >```bash
 >wget -O- https://repo.liquibase.com/liquibase.asc | gpg --dearmor > liquibase-keyring.gpg && \
 >cat liquibase-keyring.gpg | sudo tee /usr/share/keyrings/liquibase-keyring.gpg > /dev/null && \
 >echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/liquibase-keyring.gpg] https://repo.liquibase.com stable main' | sudo tee /etc/apt/sources.list.d/liquibase.list
 >```
->
->➡️ Update the package list:
+
+---
+➡️ Update the package list:
+After adding the repository, update your system's package list to recognize the new repository:
 >
 >```bash
 > sudo apt-get update
 >```
-
-![image](https://github.com/user-attachments/assets/91a4a2ba-2813-46d0-bbe6-3c7c56a8da69)
->
->➡️ Install Liquibase:
+---
+➡️ Install Liquibase:
+Install liquibase by running
 >
 >```bash
 > sudo apt-get install liquibase
 >```
-> ---
+---
 
-![image](https://github.com/user-attachments/assets/ad4c4493-2efb-4b75-8d14-bb7d7d387cf9)
->
->➡️ Command to check the installed Liquibase version:
+➡️Verification
+After completing the installation, ensure Liquibase is ready to use by running a simple version command:
 >
 >```bash
 > liquibase --version
 >```
-> **Note:**  Running this command will display the current installed version of Liquibase, helping you verify the installation.
->
-> ---
->
-
-![image](https://github.com/user-attachments/assets/6155a2af-79c7-4494-9768-c8116d2c6105)
-
-
-### 2. For Connecting with DB
-
-```bash
-mkdir liquibase-poc && cd liquibase-poc
-```
-
-Example `liquibase.properties`:
-```properties
-changeLogFile: changelog.xml
-url: jdbc:postgresql://localhost:5432/mydb
-username: dbuser
-password: dbpass
-driver: org.postgresql.Driver
-```
-
 ---
 
-### 3. Define a ChangeSet (changelog.xml)
-
-```xml
-<databaseChangeLog
-  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-
-  <changeSet id="1" author="dev">
-    <createTable tableName="employee">
-      <column name="id" type="int">
-        <constraints primaryKey="true"/>
-      </column>
-      <column name="name" type="varchar(255)"/>
-    </createTable>
-  </changeSet>
-</databaseChangeLog>
-```
-
+### 4. For Connecting with DB
+➡️ Find and Update Liquibase Properties file (liquibase.properties) from your project(OT-MICROSERVICES) to connect with db 
+ - Replace `172.31.xx.xx` with your actual private IP address.
+> 
+>```bash
+>sudo nano liquibase.properties
+>url=jdbc:postgresql://172.31.xx.xx:5432/attendance_db
+>```
 ---
-
-### 4. Apply Changes
+### 5. Apply Changes
 
 ```bash
-liquibase update
+liquibase status
 ```
 
 ---
@@ -184,17 +148,18 @@ liquibase rollbackCount 1
 
 ---
 
-## 🧠 Best Practices
+## Best Practices
 
-- Use semantic versioning in `changeSet` IDs.
-- Modularize changes across multiple changelog files.
-- Use rollback tags inside `changeSet`.
-- Store changelogs in version control.
-- Avoid hard-coded DB credentials—use environment variables or secret managers.
+| **Best Practice**        | **Description**                                                                 |
+|--------------------------|---------------------------------------------------------------------------------|
+| **Version Control**      | Store your changelog files in a version control system (e.g., Git).              |
+| **Granular Changesets**  | Make changesets small and granular to facilitate easier troubleshooting and rollback. |
+| **Testing**              | Always test changesets in a staging environment before applying them to production. |
+| **Documentation**        | Document changesets thoroughly to ensure they are understandable by other team members. |
 
 ---
 
-## 🔄 Backup and Rollback Strategy
+## Backup and Rollback Strategy
 
 | Strategy Type  | Approach                                               |
 |----------------|--------------------------------------------------------|
@@ -202,33 +167,47 @@ liquibase rollbackCount 1
 | Rollback       | Use `rollback` tag or Liquibase rollback commands      |
 | ChangeSet Design | Include `<rollback>` inside each `changeSet`         |
 
-Example:
-```xml
-<rollback>
-  <dropColumn tableName="employee" columnName="email"/>
-</rollback>
+## Explanation:
+
+➡️ **Backup**:
+A backup strategy in Liquibase involves regularly saving database states to secure locations, ensuring data integrity and facilitating quick recovery in case of errors. It typically includes scheduled backups, pre-deployment backups before applying changes, and automated verification processes to ensure backup reliability.
+  - Perform a database dump before applying any changes.
+   
+>```sh
+>pg_dump -h localhost -p 5432 -U postgres -d attendance_db > backup.sql
+>```
+
+➡️ **Rollback**:
+A rollback strategy in Liquibase involves reverting database changes to a previous state if deployment issues occur. It typically          includes utilizing Liquibase commands or rollback scripts to undo specific changes, ensuring data integrity by backing up before rollback, and testing rollback procedures in a staging environment for reliability.
+- Define rollback procedures within your changesets.
+>```xml
+><changeSet id="1" author="yourname">
+>   <rollback>
+>        <dropTable tableName="example_table"/>
+>   </rollback>
+></changeSet>
+>```
+
+- Execute rollback if needed.
+```sh
+liquibase rollbackCount 1
 ```
+---
+
+## Conclusion
+Liquibase is a powerful tool for managing database schema changes, providing a reliable way to track, version, and deploy changes. By following best practices and having a solid backup and rollback strategy, you can effectively manage your database schema lifecycle.
+
+
+## **Contact Information**
+
+| Name           | Email Address                             |
+|----------------|-------------------------------------------|
+| Shivani Narula   | shivani.narula.snaatak@mygurukulam.co       |
 
 ---
 
-## 🏁 Conclusion
+## **Reference Table**
 
-Liquibase helps automate and manage database schema changes in a controlled, trackable, and repeatable way. This POC provides a solid foundation for integrating Liquibase into your DevOps pipeline.
-
----
-
-## 📞 Contact Information
-
-| Role         | Name         | Email                     |
-|--------------|--------------|---------------------------|
-| POC Owner    | Your Name    | your.email@example.com    |
-| DevOps Lead  | DevOps Lead  | devops@example.com        |
-
----
-
-## 📚 References
-
-- [Liquibase Official Docs](https://www.liquibase.org/documentation/index.html)
-- [Liquibase GitHub](https://github.com/liquibase/liquibase)
-- [Liquibase Docker Hub](https://hub.docker.com/r/liquibase/liquibase)
-- [CI/CD Integration Guide](https://docs.liquibase.com/workflows/liquibase-community/automate-with-ci-cd-tools.html)
+| **Link**                                                                                                                     | **Description**                                    |
+|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| [How to install Liquibase Database DevOps](https://chandrapurnimabhatnagar.medium.com/how-to-install-liquibase-database-devops-34ca9a6d9705) | Liquibase installation                          |
