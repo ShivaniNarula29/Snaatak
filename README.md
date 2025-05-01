@@ -130,22 +130,6 @@ After completing the installation, ensure Liquibase is ready to use by running a
 ```bash
 liquibase status
 ```
-
----
-
-### 5. Rollback Example
-
-```xml
-<changeSet id="2" author="dev">
-  <dropTable tableName="employee"/>
-</changeSet>
-```
-
-```bash
-liquibase update
-liquibase rollbackCount 1
-```
-
 ---
 
 ## Best Practices
