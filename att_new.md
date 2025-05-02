@@ -142,40 +142,36 @@ This document covers the setup, configuration, and execution of the Attendance R
 ---
 
 ## **Architecture**
-
 ![attendance](https://github.com/user-attachments/assets/afbdd13d-f7f3-4874-b2da-55288aa58900)
 
 ## **Flow Diagram**
-
 ![image](https://github.com/user-attachments/assets/4d337acd-39a6-4cf8-90db-3440b7fc2d70)
 
 ## **Step-by-Step Installation Guide**
 
-➡️ *Update your server* [Go to this link for ubuntu basic commands.](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/operating_system/ubuntu/sop/commoncommands/README.md#1-basic-system-commands)
+## 1. PostgreSQL
 
----
+➡️ *Installation*: [Go to this link for postgresSQL installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-86-Vardaan/common_stack/software/postgresql/installation/README.md)
 
-## 1. Install PostgreSQL
-
-➡️ *Install the postgreSQL*: [Go to this link for postgresSQL installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/postgresql/installation/guide/README.md)
+➡️ *Configuration*: [Go to this link for postgresSQL configuration guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-86-Vardaan/common_stack/software/postgresql/installation/README.md)
 
 ---
 
 ## 2. Redis
 
-➡️ *Install redis-server*: [Go to this link for Redis-server installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-84-PRINCE/common_stack/software/redis/installation/README.md#1-install-redis-server)
+➡️ *Installation and configuration*: [Go to this link for redis installation and configuration guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-84-PRINCE/ot-ms-understanding/software/middleware/redis/poc/README.md)
 
 ---
 
 ## 3. Liquibase (Database Change Management)
 
-➡️ *Install Liquibase*: [Go to this link for Redis-server installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/SCRUMS-84-PRINCE/common_stack/software/redis/installation/README.md#1-install-redis-server)
+➡️ *Install Liquibase*: [Go to this link for liquibase installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/tree/SCRUMS-121-SHIVANI/database%20change%20management/database%20release%20management/poc%20on%20liquibase#step-by-step-setup-guide)
 
 ---
 
 ## 4. Gunicorn
 
-➡️ *Install Python*: [Install Gunicorn Guide]([https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/python/installation/guide/READEME.md#step-1-check-if-python-is-already-installed](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/python/installation/guide/READEME.md#step-1-check-if-python-is-already-installed))
+➡️ *Install Python*: [Install Gunicorn Guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/python/gunicorm/sop/README.md)
 
 ---
 ## 5. Poetry 
@@ -185,34 +181,57 @@ This document covers the setup, configuration, and execution of the Attendance R
 ---
 ## 6. Make
 
-- *Install make* [Go to this link for make installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/others/make/sop/README.md#installation-on-linux)
+➡️ *Install make* [Go to this link for make installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/others/make/sop/README.md#installation-on-linux)
 
 ---
-
 
 ## **Attendance API - Repo Clone & Setup**
 ➡️ **Attendance api repository**: **https://github.com/OT-MICROSERVICES/attendance-api.git**
 
-### **Configuration changes in our repo for integrate with our private IP and also add on some dependicies to run the application**
+### Configuration changes in our repo for integrate with our private IP
 
 ➡️ **Update liquibase.properties file**
-- Open `liquibase.properties` configuration file and then replace `172.31.xx.xx` with your actual private IP address.
+- Open `liquibase.properties` configuration file and then replace ip address with your actual private IP address.
 
 ➡️ **Update config.yaml file**
-- Open the `config.yaml` configuration file and the replace `172.31.xx.xx` with your actual private IP address.
+- Open the `config.yaml` configuration file and then replace both ip address with your actual private IP address.
 
 ---
 ## **Run the Attendance API Server**
 
 ### **Update pyproject.toml file**
-- To add the dependencies gunicorn, dataclasses-json, and psycopg2-binary properly, you should include them under [tool.poetry.dependencies],
+
+➡️ To add the dependencies gunicorn, dataclasses-json, and psycopg2-binary properly, you should include them under [tool.poetry.dependencies],
 ```toml
 gunicorn = "^21.2.0"
 dataclasses-json = "^0.6.4"
 psycopg2-binary = "^2.9.9"
 ```
+### **To set up the PostgreSQL database, follow these steps:**
+➡️ Set a password for the postgres user:
+``` sql
+- sudo -i -u postgres
+- psql
+- ALTER USER postgres WITH PASSWORD 'your_password';
+```
+**Note:** Make sure to replace 'your_password' with a secure password.
 
-### **Create service file for run the application :**
+➡️ Create the attendance_db database:
+```sql
+CREATE DATABASE attendance_db;
+```
+
+➡️ Test the connection:
+``` psql -h <private-ip-address> -U postgres -d attendance_db ```
+
+### **Run Migration**
+
+```
+make run-migrations
+```
+
+### **Create service file for run the application:**
+
 ➡️ Create the **gunicorn.service** file at the path **/etc/systemd/system/gunicorn.service** and add the following content:
 
 ```
@@ -266,5 +285,4 @@ This API is a tool that helps businesses keep track of their employees' attendan
 |-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | [How to install and configure PostgreSQL on Ubuntu 20.04](https://medium.com/devops-technical-notes-and-manuals/how-to-install-and-configure-postgresql-on-ubuntu-20-04-4fd3cf072d6f) | PostgreSQL installation and configuration       |
 | [How to install Liquibase Database DevOps](https://chandrapurnimabhatnagar.medium.com/how-to-install-liquibase-database-devops-34ca9a6d9705) | Liquibase installation                          |
-| [Redis POC Documentation](https://github.com/avengers-p11/Documentation/blob/main/OT%20MS%20Understanding/Redis/Redis%20POC/README.md) | Redis                        
 
