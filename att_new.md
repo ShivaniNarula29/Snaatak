@@ -180,164 +180,66 @@ This document covers the setup, configuration, and execution of the Attendance R
 ---
 ## 5. Poetry 
 
-➡️ *Install poetry*: [Install Gunicorn Guide]([https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/python/installation/guide/READEME.md#step-1-check-if-python-is-already-installed](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/application/python/installation/guide/READEME.md#step-1-check-if-python-is-already-installed))
+➡️ *Install poetry*: [Install Poetry Guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/prince_scrums_16/common_stack/application/python/poetry/sop/README.md)
 
 ---
+## 6. Make
+
+- *Install make* [Go to this link for make installation guide](https://github.com/snaatak-Downtime-Crew/Documentation/blob/main/common_stack/others/make/sop/README.md#installation-on-linux)
+
+---
+
 
 ## **Attendance API - Repo Clone & Setup**
-**Step 1: Git Clone** 
-> ➡️ **Attendance api repository**
-> 
->```bash
->git clone https://github.com/OT-MICROSERVICES/attendance-api.git
->ls
->```
-> ➡️ **After clone go to the repo clone folder**
-> 
->```bash
-> cd attendance-api/
->ls
->```
->---
+➡️ **Attendance api repository**: **https://github.com/OT-MICROSERVICES/attendance-api.git**
 
-![image](https://github.com/user-attachments/assets/38ff0ca0-89cd-428e-bcaa-1c9f9a0a9e91)
+### **Configuration changes in our repo for integrate with our private IP and also add on some dependicies to run the application**
 
-> ➡️ **Now, Update configuration files to listen on the private IP**
-> 
-> - Open the `liquibase.properties` configuration file:
->
->```bash
-> sudo nano liquibase.properties
->```
->
-> - Find and modify the following line:
->
->```bash
->url=jdbc:postgresql://127.0.0.1:5432/attendance_db
->```
->
-> - Change it to:
->
->```bash
->url=jdbc:postgresql://172.31.xx.xx:5432/attendance_db
->```
-> **Note:** Replace `172.31.xx.xx` with your actual private IP address.
->
-> - Save it:
->
->```bash
->ctrl+x
->```
->
----
+➡️ **Update liquibase.properties file**
+- Open `liquibase.properties` configuration file and then replace `172.31.xx.xx` with your actual private IP address.
 
-> ➡️ **Update config.yaml to listen on the private IP**
-> 
-> - Open the `config.yaml` configuration file:
->
->```bash
->  sudo nano config.yaml
->```
->
-> - Find and modify the following line:
->
->```bash
->host: 127.0.0.1
->```
->
-> - Change it to:
->
->```bash
->host: 172.31.xx.xx
->```
-> **Note:** Replace `172.31.xx.xx` with your actual private IP address.
->
+➡️ **Update config.yaml file**
+- Open the `config.yaml` configuration file and the replace `172.31.xx.xx` with your actual private IP address.
 
 ---
 ## **Run the Attendance API Server**
 
-**Step 1:Install pip dependencies** 
->```bash
->cd attendance-api
->```
->
-> ```bash
->pip install Flask gunicorn flasgger prometheus-flask-exporter redis dataclasses-json psycopg2-binary
->```
->
-> ```bash
->pip install Flask-Caching
->```
->
-> ```bash 
->pip install python-json-logger
->```
->
-> ```bash
->pip install voluptuous
->```
->
-> ```bash
->pip install peewee
->```
-> 
->---
+### **Update pyproject.toml file**
+- To add the dependencies gunicorn, dataclasses-json, and psycopg2-binary properly, you should include them under [tool.poetry.dependencies],
+```toml
+gunicorn = "^21.2.0"
+dataclasses-json = "^0.6.4"
+psycopg2-binary = "^2.9.9"
+```
 
-![image](https://github.com/user-attachments/assets/a125c188-bd9f-408e-af21-be3504897037)
-![image](https://github.com/user-attachments/assets/957f0d66-1e97-4302-8408-eb668b01ea1e)
-![image](https://github.com/user-attachments/assets/f5d71639-8697-4b9c-a231-fbae4376af5e)
+### **Create service file for run the application :**
+➡️ Create the **gunicorn.service** file at the path **/etc/systemd/system/gunicorn.service** and add the following content:
 
-**Step 2:Run Migration**
-> ➡️ **Install make**
-> 
->```bash
->sudo apt install make -y
->make --version
->make run-migrations
->```
->
->---
-![image](https://github.com/user-attachments/assets/b8de4582-5805-4480-a437-7788c458c44f)
-![image](https://github.com/user-attachments/assets/6cc881e9-8ccc-4c22-aea8-fb5bf4ffa7df)
+```
+[Unit]
+Description=gunicorn daemon for the Attendance API
+After=network.target
 
-**Step 3:Run the application** 
-> ➡️ **Create Service File:**
-> 
->```bash
->sudo nano /etc/systemd/system/gunicorn.service
->```
->
-> ➡️ **Paste below content in our service file `gunicorn.service`**
->
-> ```bash
->[Unit]
->Description=gunicorn daemon for the Attendance API
->After=network.target
->
->[Service]
->User=ubuntu
->Group=ubuntu
->WorkingDirectory=/home/ubuntu/attendance-api
->ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 0.0.0.0:8080 app:app
->
->[Install]
->WantedBy=multi-user.target
->```
->
-> ➡️ **Now,Start the 'gunicorn.service'**
-> 
->```bash
-> sudo systemctl daemon-reload
-> sudo systemctl enable gunicorn
-> sudo systemctl start gunicorn 
-> sudo systemctl status gunicorn 
->
->```
->---
-> 
-![image](https://github.com/user-attachments/assets/c01977e6-f330-43f4-bf9d-595d7b40a9ff)
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/attendance-api
+ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 0.0.0.0:8080 app:app
 
-**Step 4 :Open any browser and check the swagger page will be accessible on http://public-ip:8080/apidocs** 
+[Install]
+WantedBy=multi-user.target
+```
+
+➡️ **Now,Start the 'gunicorn.service'**
+ 
+```
+sudo systemctl daemon-reload
+sudo systemctl enable gunicorn
+sudo systemctl start gunicorn 
+sudo systemctl status gunicorn 
+```
+
+➡️ Now, Open any browser and check the swagger page will be accessible on http://public-ip:8080/apidocs** 
 >---
 ![image](https://github.com/user-attachments/assets/6d496183-27ef-473a-969a-e0152a4571ff)
 ![image](https://github.com/user-attachments/assets/cca22fcb-c2ad-4b9e-835e-152319d4e023)
