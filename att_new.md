@@ -143,7 +143,7 @@ This document covers the setup, configuration, and execution of the Attendance R
 
 ## **Architecture**
 
-![Problem Statement-Page-21 (2)](https://github.com/user-attachments/assets/bc732677-7903-4be6-9226-3ad9c2b198e3)
+![attendance](https://github.com/user-attachments/assets/afbdd13d-f7f3-4874-b2da-55288aa58900)
 
 ## **Flow Diagram**
 
