@@ -1,6 +1,6 @@
 # Cost Optimization Designing | Documentation | AWS Service Control Policies
 ### This document provides a detailed overview of implementing AWS Service Control Policies (SCPs) as part of cost optimization design.
-| **Author** | **Created on** | **Version** | **Last updated by** | **Last Edited On** | **Level** | **Reviewer** |
+
 ---
 ## Table of Contents
 - [Introduction](#introduction)
@@ -51,7 +51,6 @@ AWS Service Control Policies (SCPs) are an essential tool for ensuring cost opti
 ## Contact Information
 | **Name**            | **Email Address**                                   |
 |---------------------|-----------------------------------------------------|
-| Himanshu Parashar   | himanshu.parashar.snaatak@mygurukulam.co           |
 ---
 ## References
 | **Resource**                | **Description**                                                | **Link**                                                                 |
