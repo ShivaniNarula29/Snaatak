@@ -34,13 +34,13 @@ Ensure you have the following:
 
 ## Setup Guide
 
-The following types of notifications are covered in this guide:
+This guide covers how to set up the following types of GitHub notifications:
 
-| Notification         | Description                                                       |
-|----------------------|-------------------------------------------------------------------|
-| [Code Review](#configuring-github-notifications-for-code-review)        | Notifies reviewers when code is ready for review.           |
-| [Team Mentions](#configuring-github-notifications-for-teams)            | Notifies team members when mentioned in discussions.        |
-| [Repository Events](#configuring-github-notifications-for-repository-push-events) | Notifies the team or owner about repository push events.    |
+| Notification Type      | What It Does                                                   |
+|------------------------|----------------------------------------------------------------|
+| [Code Review](#configuring-github-notifications-for-code-review)        | Alerts reviewers when code is ready to be reviewed.            |
+| [Team Mentions](#configuring-github-notifications-for-teams)            | Sends a notification when someone mentions your team.          |
+| [Repository Events](#configuring-github-notifications-for-repository-push-events) | Notifies about code changes pushed to the repository.          |
 
 ---
 
@@ -99,18 +99,17 @@ The following types of notifications are covered in this guide:
 
 ## Best Practices
 
-### GitHub Notification Management
+Good notification management helps you stay focused and keeps your team in sync. Here are some useful tips:
 
-Effective notification management helps reduce distraction and keeps teams aligned. Follow these best practices:
+| Tip                              | What It Means                                                              |
+|----------------------------------|-----------------------------------------------------------------------------|
+| Customize Notification Settings  | Set your preferences to only get alerts for the things that matter to you. |
+| Use Watch, Star, or Ignore       | Watch projects for all updates, star important ones, and ignore the rest.   |
+| Focus on Key Repositories        | Pin important repositories so they’re easy to access.                      |
+| Leave Unnecessary Threads        | Unsubscribe from threads you no longer need to follow.                     |
+| Organize with Filters and Labels | Use labels or filters to group and manage your notifications.              |
+| Limit Mentions         | Only mention people when necessary to avoid unnecessary notifications.     |
 
-| Best Practice                         | Description                                                                  |
-|--------------------------------------|------------------------------------------------------------------------------|
-| Customize Notifications              | Adjust preferences for specific activities to control alert frequency.       |
-| Use "Watching", "Starring", "Ignoring" | Watch for all updates, star key projects, and ignore unneeded threads.       |
-| Prioritize Repositories              | Pin important repositories to the top of your dashboard.                     |
-| Unsubscribe from Irrelevant Threads  | Reduce clutter by leaving outdated or unnecessary threads.                   |
-| Use Filters and Labels               | Organize notifications by applying labels or filtering types.                |
-| Limit Mentions                       | Mention only essential individuals to avoid spamming the team.               |
 
 ---
 
