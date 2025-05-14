@@ -71,48 +71,30 @@ Step4: In the **Settings** tab, choose **Code Review** from the left-side menu a
 ![image](https://github.com/user-attachments/assets/3d6db933-985a-41de-96ab-c8d789440023)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Configuring GitHub Notifications for Teams
 
-1. In the **Settings** tab, select **Enable** under team notifications and click **Save Changes**.  
+Step1: In the **Settings** tab, select **Enable** under team notifications and click **Save Changes**.  
   ![image](https://github.com/user-attachments/assets/7e619178-845a-4ba6-af4e-2b4d36e064b2)  
 
 
 ### Configuring GitHub Notifications for Repository Push Events
 
-1. In your organization’s page, navigate to **Repositories** and pick the desired repository.3. Select the repository you want to configure notifications for.  
+Step1: In your organization’s page, navigate to **Repositories** and pick the desired repository.3. Select the repository you want to configure notifications for.  
 
 ![image](https://github.com/user-attachments/assets/5ef3c426-9176-43d9-82f7-f9b52d2e2e2e)
 
 ![image](https://github.com/user-attachments/assets/f4737195-20ed-4754-a487-531b0741fc9f)
 
 
-4. Go to **Settings** > **Integrations** > **Email Notifications**.  5. In the **Address** field, enter up to two email addresses separated by whitespace. For more than two addresses, use a group email address. 
+Step2: Go to **Settings** > **Integrations** > **Email Notifications**.  5. In the **Address** field, enter up to two email addresses separated by whitespace. For more than two addresses, use a group email address. 
 6. Select **Active**, and click **Setup Notifications**.  
 
 
 ![image](https://github.com/user-attachments/assets/af2e09ef-5fdd-4800-aa26-feead5bbda04)
 
- 
-![image](https://github.com/user-attachments/assets/6af8df2e-8615-449c-a158-0ae7ffe2a2af)
 
 
 ![image](https://github.com/user-attachments/assets/79047648-b000-46f9-acbd-10b459d0c3ce)
-
-**Note:** Individual users can manage notifications from their **Notifications** tab under **Settings**.  
 
 ---
 
