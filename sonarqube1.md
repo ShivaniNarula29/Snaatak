@@ -1,24 +1,41 @@
 # SonarQube Metrics to Monitor
 
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiKNBt8FMlnLmeZLVtdm6MpACBRW89pcCvUA&s" alt="Attendance Logo" width="500"/>
+</p>
+
+## **Author Information**
+
+| Created     | Last updated | Version | Author         | Level | Reviewer        |
+|-------------|--------------|---------|----------------|-------|-----------------|
+| 15-05-2025  |     | V1  | Shivani Narula  | Internal Review | Siddharth Pawar |
+
+
 ## Table of Contents
-- [Purpose](#1-purpose)  
-- [Why Monitor SonarQube Metrics?](#2-why-monitor-sonarqube-metrics)  
-- [Workflow Diagram](#3-workflow-diagram)  
-- [Key Metrics to Monitor](#3-key-metrics-to-monitor)  
-  - [Metrics Classified According to Priority](#31-metrics-classified-according-to-priority)  
-  - [Accessing Project Metrics in SonarQube](#32-accessing-project-metrics-in-sonarqube)  
-- [Recommended Thresholds & Alerts](#4-recommended-thresholds--alerts)  
-- [Advantages & Disadvantages](#4-advantages--disadvantages)  
-- [Best Practices for Monitoring SonarQube Metrics](#5-best-practices-for-monitoring-sonarqube-metrics)  
-- [Conclusion](#6-conclusion)  
-- [Contact Information](#7-contact-information)  
-- [References](#8-references)
+- [Introduction](#introduction)
+- [What Does It Mean to Monitor SonarQube Metrics?](#what-does-it-mean-to-monitor-sonarqube-metrics)
+- [Why Monitor SonarQube Metrics?](#why-monitor-sonarqube-metrics)
+- [Workflow Diagram](#workflow-diagram)
+- [Key Metrics to Monitor](#key-metrics-to-monitor)
+    - [Metrics Classified According to Priority](#metrics-classified-according-to-priority)
+    - [Accessing Project Metrics in SonarQube](#accessing-project-metrics-in-sonarqube)
+- [Recommended Thresholds & Alerts](#recommended-thresholds--alerts)
+- [Advantages & Disadvantages](#advantages--disadvantages)
+- [Best Practices for Monitoring SonarQube Metrics](#best-practices-for-monitoring-sonarqube-metrics)
+- [Conclusion](#conclusion)
+- [Contact Information](#contact-information)
+- [Reference Table](#reference-table)
 
 ---
 
-## Purpose
+## Introduction
 
-This document outlines the value of tracking SonarQube metrics. It highlights their role, pros and cons, and optimal usage practices. SonarQube is an open-source platform frequently used to maintain and improve code quality through continuous inspection. Monitoring its metrics ensures the codebase remains robust, clean, and in line with development standards.
+This document outlines the value of tracking SonarQube metrics. It highlights their role, pros and cons, and optimal usage practices. 
+
+---
+
+## What Does It Mean to Monitor SonarQube Metrics?
+Monitoring SonarQube metrics means regularly checking the numbers and reports that SonarQube creates when it analyzes your code. These include things like bugs, security problems, test coverage, repeated code, and how much work is needed to fix issues. By watching these metrics, teams can understand how healthy the code is, find problems early, and keep the code clean and safe according to standards.
 
 ---
 
@@ -31,10 +48,19 @@ This document outlines the value of tracking SonarQube metrics. It highlights th
 - Proactively alert on threshold violations (e.g., slow response time, heap memory overuse)
 
 ---
+## **Workflow Diagram**
 
-### Workflow Diagram
+```mermaid
+flowchart TD
+    A[Code Commit] --> B[CI-CD Triggers SonarQube Analysis]
+    B --> C[SonarQube Server Processes Code]
+    C --> D[Metrics Generated and Stored]
+    D --> E[Monitoring Tools Fetch Metrics]
+    E --> F{Thresholds Breached}
+    F -- Yes --> G[Send Alert via Email or Slack]
+    F -- No --> H[Log Metrics for Dashboard]
 
-![Workflow Diagram](https://github.com/user-attachments/assets/96edb40c-a32b-4090-99f5-129dca0a61d3)
+```
 
 ### Step-by-Step Workflow Overview
 
@@ -153,7 +179,6 @@ Action:
 | Detects issues proactively    | May produce false positives or strict reports                  |
 | Aids technical decisions      | Too many metrics may complicate decision-making                |
 | Improves team collaboration   | SonarQube outages may block releases                           |
-| Boosts development speed      |                                                                 |
 
 ---
 
@@ -176,14 +201,16 @@ Consistent monitoring of SonarQube metrics empowers teams to develop secure, mai
 
 ---
 
-## Contact Information
+## **Contact Information**
 
-*Add your technical team's email, Slack channel, or contact person here.*
+| Name           | Email Address                             |
+|----------------|-------------------------------------------|
+| Shivani Narula   | shivani.narula.snaatak@mygurukulam.co       |
 
 ---
 
-##References
+## **Reference Table**
 
-| Resource                            | Link                                                                 |
-|-------------------------------------|----------------------------------------------------------------------|
-| SonarQube Metric Definitions        | [SonarQube Documentation](https://docs.sonarsource.com/sonarqube-server/10.7/user-guide/code-metrics/metrics-definition/) |
+| **Link**                                                                                                                     | **Description**                                    |
+|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| [SonarQube Documentation](https://docs.sonarsource.com/sonarqube-server/10.7/user-guide/code-metrics/metrics-definition/) | SonarQube Metric Definitions    |
