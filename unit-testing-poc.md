@@ -185,18 +185,3 @@ Refers to the link [Unit Testing](https://github.com/snaatak-Downtime-Crew/Docum
 ## Conclusion
  we can say that Unit testing in Python ensures code correctness, identifies bugs early, improves code reliability, and promotes efficient debugging and maintenance.
 
-
-
- ## Contact
-
-| Name| Email Address      | GitHub | URL |
-|-----|--------------------------|----------|---------|
-| Anjali Dhiman | anjali.dhiman.snaatak@mygurukulam.co |  Anjaliopstree  |  https://github.com/Anjaliopstree  |
- 
-
-
- ## Refrence
-  | Link|Description|
-  |:---:|:---:|
-  |[Link](https://github.com/MyGurukulam-p11/Documentation/tree/main/OT-Microservices/Application/Attendance-API)|Attendance API|
-  |[Link](https://github.com/MyGurukulam-p11/Documentation/blob/main/Application-CI-Design/Python-CI-Checks/Unit-Testing/README.md)|Python Unit testing Doc|
