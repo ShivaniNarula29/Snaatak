@@ -6,7 +6,7 @@
 
 ## **Author Information**
 
-|  Version   |   Author     |  Modifed   |      Comment      |    Reviewer      |
+|  Version   |   Author     |  Modified   |      Comment      |    Reviewer      |
 |------------|--------------|------------|-------------------|------------------|
 |  V1        | Shivani Narula |            | Internal Review   | Siddharth Pawar  |
 |  V2        | Shivani Narula  |            | L0 Review         | Naveen Haswani |
@@ -17,41 +17,40 @@
 The purpose of this document is to provide a comprehensive overview of Python Unit Testing, including its importance, tools available, best practices, and recommendations for efficient compilation processes.
 
 ## Table of Contents
-- [Introduction](#-introduction)
-- [What?](#-what-are-unit-testing)
-- [Why?](#-why-unit-testing)
-- [How](#-how)
-- [Workflow Diagram](#-workflow-diagram)
-- [Different Tools for Unit Testing in Python](#-different-tools-for-unit-testing-in-python)
-- [Comparison of Tools](#-comparison-of-tools)
-- [Advantages](#-advantages)
-- [Disadvantages](#-disadvantages)
-- [Best Practices](#-best-practices)
-- [Recommendation](#-recommendation)
-- [Conclusion](#-conclusion)
-- [Contact Information](#-contact-information)
-- [References](#-references)
+
+- [Introduction](#introduction)
+- [What?](#what)
+- [Why?](#why)
+- [Workflow Diagram](#workflow-diagram)
+- [Different Tools for Unit Testing in Python](#different-tools-for-unit-testing-in-python)
+- [Comparison of Tools](#comparison-of-tools)
+- [Advantages](#advantages-of-unit-testing)
+- [Disadvantages](#disadvantages-of-unit-testing)
+- [Best Practices](#best-practices)
+- [Recommendation](#recommendation)
+- [Conclusion](#conclusion)
+- [Contact Information](#contact-information)
+- [References](#references)
 
 ## Introduction
-Unit testing is a method of testing individual components or functions of a software application in isolation. It helps in validating that each unit of the software performs as expected.
+This document explains the basics of Python unit testing, covering key concepts, popular tools, best practices, and recommendations. It aims to help developers write effective tests to improve code quality and reliability.
 
-## What ?
+---
+
+## What?
 Unit testing refers to the process of writing and running small tests that check the correctness of individual parts (units) of a program, usually at the function level.
 
-## Why ?
+---
+
+## Why?
 - Ensures individual code blocks work as intended.
-- Makes future code changes safer.
+- Makes future code changes safer and more reliable..
 - Helps find bugs early in development.
 - Promotes modular, maintainable code.
 
-##  How?
-1. Identify functions or methods to test.
-2. Use a unit testing framework (e.g., `unittest`, `pytest`).
-3. Write test cases with different input scenarios.
-4. Use assertions to compare actual vs expected results.
-5. Run the test suite using CLI or CI tools.
+---
 
-## 🔁 Workflow Diagram
+## Workflow Diagram
 
 ```mermaid
 flowchart TD
@@ -61,6 +60,15 @@ flowchart TD
     C -->|Fail| E[Debug Code]
     E --> F[Rewrite Test]
 ```
+### Explanation
+| **Step**         | **Description**                                                  | **Example**                                                                   |
+| ---------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Write Test Cases | Write code to test individual units or functions.                | Write a test for a function that adds two numbers: `assert add(2,3) == 5`     |
+| Run Test Suite   | Execute all test cases to check if the code behaves as expected. | Run `pytest` or `python -m unittest` to run all tests.                        |
+| Pass or Fail?    | Check if tests passed or failed.                                 | If the addition test passes, move forward; if it fails, proceed to debugging. |
+| Continue         | If tests pass, continue development or deployment.               | Merge code to main branch or deploy to production.                            |
+| Debug Code       | Investigate and fix the code causing test failures.              | Find out why `add(2,3)` returned `4` instead of `5`.                          |
+| Rewrite Test     | Modify or add new tests if needed after fixing the code.         | Adjust the test if the function signature changed or add edge cases.          |
 
 ---
 
@@ -165,8 +173,8 @@ Unit testing is a crucial part of the software development lifecycle that helps 
 | Shivani Narula | shivani.narula.snaatak@mygurukulam.co    |
 
 ---
-
-| Links                                                                                                      | Descriptions                                       |
-| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| [Python unittest Documentation](https://docs.python.org/3/library/unittest.html)   |  |
-| [Keploy Blog](https://keploy.io/blog)                |       |
+## References
+| **Links**                                                                        | **Descriptions**                                                  |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [Python unittest Documentation](https://docs.python.org/3/library/unittest.html) | Official documentation for Python’s built-in unittest framework.  |
+| [Keploy Blog](https://keploy.io/blog)                                            | Blog with articles on testing and test automation best practices. |
