@@ -1,15 +1,3 @@
-/* @Library('shared-library') _
-
-golangdependencyscanning(
-    gitUrl: 'https://github.com/snaatak-Downtime-Crew/employee-api.git',
-    gitCredId: 'shivani-git-cred',
-    slackChannel: 'notificationn-channel',
-    slackTokenCredentialId: 'downtime-crew',
-    emailRecipients: 'shivani.narula.snaatak@mygurukulam.co'
-)
-*/
-
-
 @Library('shared-library') _
 
 def customTitle = 'Generic Notification Status:'
@@ -21,8 +9,8 @@ pipeline {
         SLACK_CHANNEL = 'notificationn-channel'
         SLACK_CREDENTIAL_ID = 'downtime-crew'
         EMAIL_RECIPIENTS = 'shivani.narula.snaatak@mygurukulam.co'
-        PRIORITY  = 'P1'
-    } 
+        PRIORITY = 'P1'
+    }
 
     stages {
         stage('Initialize') {
