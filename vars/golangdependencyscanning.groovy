@@ -15,17 +15,17 @@ def call(Map config = [:]) {
     timestamps {
         try {
             stage('Initialize') {
+                currentStage = 'Initialize'
                 buildTrigger = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
-                failureReason = ''
-                failedStage = ''
-                currentStage = ''
             }
 
             stage('Clean Workspace') {
+                currentStage = 'Clean Workspace'
                 cleanWs()
             }
 
             stage('Install Packages') {
+                currentStage = 'Install Packages'
                 echo 'Checking and installing required packages if missing...'
                 sh '''
                     set -e
@@ -54,6 +54,7 @@ def call(Map config = [:]) {
             }
 
             stage('Checkout Repositories') {
+                currentStage = 'Checkout Repositories'
                 dir('attendance-api') {
                     checkout([$class: 'GitSCM', branches: [[name: 'main']],
                               userRemoteConfigs: [[url: attendanceRepo, credentialsId: 'shivani-git-cred']]])
@@ -65,6 +66,7 @@ def call(Map config = [:]) {
             }
 
             stage('Run Unit Tests') {
+                currentStage = 'Run Unit Tests'
                 def allTests = [
                     [name: 'Attendance API', key: 'ATTENDANCE', path: 'attendance-api', venv: 'venv1', report: 'unit_test_attendance.txt'],
                     [name: 'Notification Worker', key: 'NOTIFICATION', path: 'notification-worker', venv: 'venv2', report: 'unit_test_notification.txt']
@@ -89,29 +91,34 @@ def call(Map config = [:]) {
                             """
                             def result = sh(script: "grep -q 'FAILED' ${test.report}", returnStatus: true)
                             if (result == 0) {
-                                currentBuild.result = 'UNSTABLE'
+                                echo "⚠️ Some tests failed in ${test.name}."
+                                currentBuild.result = currentBuild.result != 'FAILURE' ? 'UNSTABLE' : currentBuild.result
                                 failureReason = "Some unit tests failed in ${test.name}."
                                 failedStage = currentStage
-                                echo failureReason
                             }
                             archiveArtifacts artifacts: test.report, allowEmptyArchive: true
                         } catch (e) {
-                            failureReason = "${test.name} tests failed: ${e.message}"
+                            echo "❌ Exception in ${test.name} tests: ${e.getMessage()}"
+                            failureReason = "${test.name} tests failed: ${e.getMessage()}"
                             failedStage = currentStage
-                            error(failureReason)
+                            currentBuild.result = 'FAILURE'
+                            throw e
                         }
                     }
                 }
             }
 
             currentBuild.result = currentBuild.result ?: 'SUCCESS'
-        } catch (Exception e) {
+
+        } catch (e) {
+            echo "🔥 Pipeline failed at stage: ${currentStage}"
+            echo "Reason: ${e.getMessage()}"
             if (!failedStage) failedStage = currentStage ?: 'Unknown Stage'
-            if (!failureReason) failureReason = e.message
+            if (!failureReason) failureReason = e.getMessage()
             currentBuild.result = 'FAILURE'
         } finally {
             stage('Post Actions') {
-                echo "📦 Build completed. Archiving unit test logs and sending notifications."
+                echo "📦 Build completed. Sending notifications..."
                 notifyBuildStatus(
                     status: currentBuild.result,
                     scope: UNIT_TEST_SCOPE,
