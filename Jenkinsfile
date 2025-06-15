@@ -1,9 +1,9 @@
 @Library('shared-library') _
 
 golangdependencyscanning(
-    gitUrl: 'https://github.com/snaatak-Downtime-Crew/employee-api.git',
+   slackChannel: 'golang-notification',
+    slackCredentialId: 'downtime-crew',
+    emailRecipient: 'shivani.narula.snaatak@mygurukulam.co',
+    repoUrl: 'https://github.com/snaatak-Downtime-Crew/employee-api.git',
     gitCredId: 'shivani-git-cred',
-    slackChannel: 'golang-notification',
-    slackTokenCredentialId: 'downtime-crew',
-    emailRecipients: 'shivani.narula.snaatak@mygurukulam.co'
 )
