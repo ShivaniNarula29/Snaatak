@@ -1,7 +1,6 @@
 def call(Map config = [:]) {
     def UNIT_TEST_SCOPE = config.get('UNIT_TEST_SCOPE', 'ALL')
-    def attendanceRepo = config.get('attendanceRepo')
-    def notificationRepo = config.get('notificationRepo')
+    def employeeRepo = config.get('employeeRepo')
     def slackChannel = config.get('slackChannel')
     def slackCredentialId = config.get('slackCredentialId')
     def emailTo = config.get('emailTo')
@@ -14,9 +13,11 @@ def call(Map config = [:]) {
 
     timestamps {
         try {
-            stage('Initialize') {
-                currentStage = 'Initialize'
+            stage('Set JDK and PATH') {
                 buildTrigger = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
+                currentStage = 'Set JDK and PATH'
+                env.JAVA_HOME = tool name: 'JDK_17'
+                env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
             }
 
             stage('Clean Workspace') {
@@ -24,101 +25,37 @@ def call(Map config = [:]) {
                 cleanWs()
             }
 
-            stage('Install Packages') {
-                currentStage = 'Install Packages'
-                echo 'Checking and installing required packages if missing...'
-                sh '''
-                    set -e
-                    check_package() {
-                        dpkg -s "$1" >/dev/null 2>&1
-                    }
-
-                    MISSING=0
-                    for pkg in python3 python3-pip python3-venv; do
-                        if check_package "$pkg"; then
-                            echo "$pkg is already installed."
-                        else
-                            echo "$pkg is NOT installed."
-                            MISSING=1
-                        fi
-                    done
-
-                    if [ "$MISSING" -eq 1 ]; then
-                        echo "Installing missing packages..."
-                        sudo apt-get update
-                        sudo apt-get install -y python3 python3-pip python3-venv
-                    else
-                        echo "All required packages are already installed."
-                    fi
-                '''
-            }
-
-            stage('Checkout Repositories') {
-                currentStage = 'Checkout Repositories'
-                dir('attendance-api') {
+            stage('Checkout Employee-api Repo') {
+                currentStage = 'Checkout Employee-api Repo'
+                dir('employee-api') {
                     checkout([$class: 'GitSCM', branches: [[name: 'main']],
-                              userRemoteConfigs: [[url: attendanceRepo, credentialsId: 'shivani-git-cred']]])
-                }
-                dir('notification-worker') {
-                    checkout([$class: 'GitSCM', branches: [[name: 'main']],
-                              userRemoteConfigs: [[url: notificationRepo, credentialsId: 'shivani-git-cred']]])
+                        userRemoteConfigs: [[url: employeeRepo, credentialsId: 'shivani-git-cred']]])
                 }
             }
 
-            stage('Run Unit Tests') {
-                currentStage = 'Run Unit Tests'
-                def allTests = [
-                    [name: 'Attendance API', key: 'ATTENDANCE', path: 'attendance-api', venv: 'venv1', report: 'unit_test_attendance.txt'],
-                    [name: 'Notification Worker', key: 'NOTIFICATION', path: 'notification-worker', venv: 'venv2', report: 'unit_test_notification.txt']
-                ]
-
-                def selectedTests = allTests.findAll { test ->
-                    UNIT_TEST_SCOPE == 'ALL' || UNIT_TEST_SCOPE == test.key
-                }
-
-                for (test in selectedTests) {
-                    currentStage = "${test.name} Unit Tests"
-                    dir(test.path) {
-                        try {
-                            echo "Running ${test.name} unit tests..."
-                            sh """
-                                python3 -m venv ${test.venv}
-                                . ${test.venv}/bin/activate
-                                pip install -r requirements.txt || true
-                                pip install pytest
-                                pytest > ${test.report} || true
-                                deactivate
-                            """
-                            def result = sh(script: "grep -q 'FAILED' ${test.report}", returnStatus: true)
-                            if (result == 0) {
-                                echo "⚠️ Some tests failed in ${test.name}."
-                                currentBuild.result = currentBuild.result != 'FAILURE' ? 'UNSTABLE' : currentBuild.result
-                                failureReason = "Some unit tests failed in ${test.name}."
-                                failedStage = currentStage
-                            }
-                            archiveArtifacts artifacts: test.report, allowEmptyArchive: true
-                        } catch (e) {
-                            echo "❌ Exception in ${test.name} tests: ${e.getMessage()}"
-                            failureReason = "${test.name} tests failed: ${e.getMessage()}"
-                            failedStage = currentStage
-                            currentBuild.result = 'FAILURE'
-                            throw e
-                        }
+            stage('Dependency Check') {
+                currentStage = 'Dependency Check'
+                dir('employee-api') {
+                    try {
+                        dependencyCheck()
+                    } catch (e) {
+                        failureReason = "Dependency Check failed: ${e.getMessage()}"
+                        failedStage = currentStage
+                        echo "❌ ${failureReason}"
+                        error(failureReason)
                     }
                 }
             }
 
             currentBuild.result = currentBuild.result ?: 'SUCCESS'
 
-        } catch (e) {
-            echo "🔥 Pipeline failed at stage: ${currentStage}"
-            echo "Reason: ${e.getMessage()}"
+        } catch (Exception e) {
             if (!failedStage) failedStage = currentStage ?: 'Unknown Stage'
-            if (!failureReason) failureReason = e.getMessage()
+            if (!failureReason) failureReason = e.message
             currentBuild.result = 'FAILURE'
         } finally {
             stage('Post Actions') {
-                echo "📦 Build completed. Sending notifications..."
+                echo "📄 Dependency scanning pipeline finished. Sending notifications."
                 notifyBuildStatus(
                     status: currentBuild.result,
                     scope: UNIT_TEST_SCOPE,
