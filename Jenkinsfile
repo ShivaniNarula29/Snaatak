@@ -3,8 +3,7 @@
 golangdependencyscanning(
     gitUrl: 'https://github.com/snaatak-Downtime-Crew/employee-api.git',
     gitCredId: 'shivani-git-cred',
-    branch: 'main',
-    slackChannel: 'golang-notification',
-    slackCredentialId: 'downtime-crew',
-    emailRecipient: 'shivani.narula.snaatak@mygurukulam.co'
+    slackChannel: 'notificationn-channel',
+    slackTokenCredentialId: 'downtime-crew',
+    emailRecipients: 'shivani.narula.snaatak@mygurukulam.co'
 )
