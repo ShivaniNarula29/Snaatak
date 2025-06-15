@@ -1,9 +1,11 @@
 @Library('shared-library') _
 
-def customTitle = 'Generic Notification Status:'
-
 pipeline {
     agent any
+
+    options {
+        timestamps()
+    }
 
     environment {
         SLACK_CHANNEL = 'notificationn-channel'
@@ -55,36 +57,14 @@ pipeline {
     }
 
     post {
-        success {
-            script {
-                genericnotify.notifyBuildStatus(
-                    env.SLACK_CHANNEL,
-                    env.SLACK_CREDENTIAL_ID,
-                    env.EMAIL_RECIPIENTS,
-                    env.PRIORITY,
-                    'SUCCESS',
-                    "${customTitle} SUCCESS"
-                )
-            }
-        }
-
-        failure {
-            script {
-                def failedStage = genericnotify.getFailedStage(currentBuild)
-                genericnotify.notifyBuildStatus(
-                    env.SLACK_CHANNEL,
-                    env.SLACK_CREDENTIAL_ID,
-                    env.EMAIL_RECIPIENTS,
-                    env.PRIORITY,
-                    'FAILURE',
-                    "${customTitle} FAILURE",
-                    failedStage
-                )
-            }
-        }
-
         always {
-            echo "📄 Pipeline execution completed."
+            script {
+                genericnotificaiton.sendNotifications(
+                    env.SLACK_CHANNEL,
+                    env.SLACK_CREDENTIAL_ID,
+                    env.EMAIL_RECIPIENTS
+                )
+            }
         }
     }
 }
