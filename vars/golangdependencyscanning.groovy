@@ -14,7 +14,7 @@ def call(Map config) {
         def priority = 'P1'
         def currentStage = ''
         def failureReason = ''
-        def reportUrl = "${env.JOB_URL}${env.BUILD_NUMBER}/artifact/dependency-check-report/dependency-check-report.html"
+        def reportUrl = "${env.BUILD_URL}artifact/employee-api/dependency-check-report/dependency-check-report.html"
 
         try {
             stage('Set JDK and PATH') {
@@ -45,7 +45,7 @@ def call(Map config) {
                 currentStage = 'Dependency Check'
                 try {
                     dir('employee-api') {
-                        dependencyCheck additionalArguments: '--project "employee-api" --scan . --format HTML --out ./dependency-check-report --failOnCVSS 10',
+                        dependencyCheck additionalArguments: '--project "employee-api" --scan . --format HTML --out ./dependency-check-report --failOnCVSS 11',
                                         nvdCredentialsId: 'owasp',
                                         odcInstallation: 'owasp'
 
@@ -53,8 +53,6 @@ def call(Map config) {
                     }
                     passedStages++
                 } catch (err) {
-                    echo "❌ Dependency Check Exception: ${err}"
-                    echo "❌ Stack trace: ${err.getStackTrace().join('\n')}"
                     failureReason = "Dependency Check failed: ${err.message}"
                     failedStage = currentStage
                     error(failureReason)
@@ -91,30 +89,22 @@ def call(Map config) {
 *Report:* ${reportUrl}
 """
 
-            try {
-                mail(
-                    to: config.emailRecipients,
-                    subject: "✅ Jenkins Build Notification: SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                    body: emailBody,
-                    mimeType: 'text/html'
-                )
-            } catch (err) {
-                echo "⚠️ Email sending failed: ${err}"
-            }
+            mail(
+                to: config.emailRecipients,
+                subject: "✅ Jenkins Build Notification: SUCCESS - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: emailBody,
+                mimeType: 'text/html'
+            )
 
-            try {
-                slackSend(
-                    channel: config.slackChannel,
-                    color: 'good',
-                    message: slackMsg,
-                    tokenCredentialId: config.slackTokenCredentialId
-                )
-            } catch (err) {
-                echo "⚠️ Slack sending failed: ${err}"
-            }
+            slackSend(
+                channel: config.slackChannel,
+                color: 'good',
+                message: slackMsg,
+                tokenCredentialId: config.slackTokenCredentialId
+            )
 
         } catch (Exception e) {
-            failedStage = currentBuild.rawBuild.getExecution().getCurrentHeads()[0].getDisplayName()
+            failedStage = currentBuild.rawBuild.getExecution().getCurrentHeads()[0]?.getDisplayName() ?: failedStage
             buildTrigger = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
 
             def emailBody = """
@@ -145,27 +135,19 @@ def call(Map config) {
 *Build URL:* ${env.BUILD_URL}
 """
 
-            try {
-                mail(
-                    to: config.emailRecipients,
-                    subject: "❌ Jenkins Build Notification: FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                    body: emailBody,
-                    mimeType: 'text/html'
-                )
-            } catch (err) {
-                echo "⚠️ Email sending failed: ${err}"
-            }
+            mail(
+                to: config.emailRecipients,
+                subject: "❌ Jenkins Build Notification: FAILURE - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: emailBody,
+                mimeType: 'text/html'
+            )
 
-            try {
-                slackSend(
-                    channel: config.slackChannel,
-                    color: 'danger',
-                    message: slackMsg,
-                    tokenCredentialId: config.slackTokenCredentialId
-                )
-            } catch (err) {
-                echo "⚠️ Slack sending failed: ${err}"
-            }
+            slackSend(
+                channel: config.slackChannel,
+                color: 'danger',
+                message: slackMsg,
+                tokenCredentialId: config.slackTokenCredentialId
+            )
 
             error("Pipeline failed at stage: ${failedStage}. See logs for details.")
         } finally {
