@@ -1,105 +1,90 @@
-def call(Map config) {
-    def required = ['gitUrl', 'gitCredId', 'slackChannel', 'slackTokenCredentialId', 'emailRecipients']
-    required.each { if (!config[it]) error("Missing required config param: ${it}") }
+def call(Map config = [:]) {
+    pipeline {
+        agent any
 
-    node {
-        def failureReason = ''
-        def failedStage = ''
-        def buildTrigger = ''
-        def now = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone('Asia/Kolkata'))
-        def priority = 'P1'
-        def reportUrl = "${env.BUILD_URL}artifact/employee-api/dependency-check-report/dependency-check-report.html"
+        environment {
+            ODC_DB = '/var/lib/jenkins/odc-db'
+            SLACK_CHANNEL = config.slackChannel ?: 'golang-notification'
+            SLACK_CREDENTIAL_ID = config.slackCredentialId ?: 'downtime-crew'
+            EMAIL_TO = config.emailRecipient ?: 'shivani.narula.snaatak@mygurukulam.co'
+            EMPLOYEE_REPO = config.repoUrl ?: 'https://github.com/snaatak-Downtime-Crew/employee-api.git'
+        }
 
-        try {
-            stage('Set JDK and PATH') {
-                def jdkHome = tool name: 'JDK_17', type: 'hudson.model.JDK'
-                env.PATH = "${jdkHome}/bin:${env.PATH}"
-            }
-
-            stage('Clean Workspace') { cleanWs() }
-
-            stage('Checkout Employee-api Repo') {
-                dir('employee-api') {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        userRemoteConfigs: [[
-                            url: config.gitUrl,
-                            credentialsId: config.gitCredId
-                        ]]
-                    ])
+        stages {
+            stage('Clean Workspace') {
+                steps {
+                    cleanWs()
                 }
             }
 
-            stage('Dependency Check') {
-                failedStage = 'Dependency Check'
-                dir('employee-api') {
-                    try {
-                        dependencyCheck additionalArguments: '--project "employee-api" --scan . --format HTML --out ./dependency-check-report',
-                                        nvdCredentialsId: 'owasp',
-                                        odcInstallation: 'owasp'
-
-                        archiveArtifacts artifacts: 'dependency-check-report/**', allowEmptyArchive: true
-                    } catch (err) {
-                        echo "❌ Dependency Check Exception: ${err}"
-                        echo "❌ Stack trace:\n${err.stackTrace.join('\n')}"
-                        failureReason = err.message
-                        error("Dependency Check failed: ${failureReason}")
+            stage('Clone Repository') {
+                steps {
+                    dir('employee-api') {
+                        git credentialsId: config.gitCredId ?: 'shivani-git-cred', url: "${env.EMPLOYEE_REPO}", branch: config.branch ?: 'main'
                     }
                 }
             }
 
-            // Success notification
-            buildTrigger = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
-            sendNotification(config, 'SUCCESS', buildTrigger, '', '', reportUrl, now, priority)
+            stage('Run OWASP Dependency Check') {
+                steps {
+                    sh """
+                        mkdir -p odc-employee-report
+                        /opt/dependency-check/bin/dependency-check.sh \\
+                            --data ${ODC_DB} \\
+                            --project "Employee API" \\
+                            --scan employee-api \\
+                            --format HTML \\
+                            --out odc-employee-report
+                    """
+                }
+            }
 
-        } catch (err) {
-            // Failure notification
-            buildTrigger = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
-            sendNotification(config, 'FAILURE', buildTrigger, failedStage, failureReason, reportUrl, now, priority)
-            error("Pipeline failed at stage: ${failedStage}. See above logs.")
-        } finally {
-            echo "📄 Dependency scanning pipeline finished."
+            stage('Publish Report') {
+                steps {
+                    dependencyCheckPublisher pattern: 'odc-employee-report/dependency-check-report.html'
+                    archiveArtifacts artifacts: 'odc-employee-report/dependency-check-report.html', allowEmptyArchive: true
+                }
+            }
+        }
+
+        post {
+            success {
+                slackSend(
+                    channel: env.SLACK_CHANNEL,
+                    color: 'good',
+                    message: """✅ *Build #${env.BUILD_NUMBER} succeeded*
+• Job: ${env.JOB_NAME}
+• URL: ${env.BUILD_URL}""",
+                    tokenCredentialId: env.SLACK_CREDENTIAL_ID
+                )
+                mail(
+                    to: "${env.EMAIL_TO}",
+                    subject: "Build #${env.BUILD_NUMBER} - SUCCESS",
+                    body: """\
+Your Jenkins build succeeded.
+
+• Job: ${env.JOB_NAME}
+• Build: ${env.BUILD_NUMBER}
+• [Employee Report](${env.BUILD_URL}artifact/odc-employee-report/dependency-check-report.html)
+"""
+                )
+            }
+
+            failure {
+                slackSend(
+                    channel: env.SLACK_CHANNEL,
+                    color: 'danger',
+                    message: """❌ *Build #${env.BUILD_NUMBER} failed*
+• Job: ${env.JOB_NAME}
+• URL: ${env.BUILD_URL}""",
+                    tokenCredentialId: env.SLACK_CREDENTIAL_ID
+                )
+                mail(
+                    to: "${env.EMAIL_TO}",
+                    subject: "Build #${env.BUILD_NUMBER} - FAILURE",
+                    body: "The Jenkins build failed. Please check logs."
+                )
+            }
         }
     }
-}
-
-def sendNotification(cfg, status, trigger, failedStage, reason, reportUrl, now, priority) {
-    def isSuccess = (status == 'SUCCESS')
-    def icon = isSuccess ? '✅' : '❌'
-    def color = isSuccess ? 'good' : 'danger'
-    def subject = "${icon} Jenkins Build Notification: ${status} - ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-    def emailBody = """
-<html><body>
-<h2>${icon} Jenkins Build Notification: ${status}</h2>
-<p><strong>Job:</strong> ${env.JOB_NAME}</p>
-<p><strong>Build Number:</strong> #${env.BUILD_NUMBER}</p>
-<p><strong>Status:</strong> ${status}</p>
-<p><strong>Triggered By:</strong> ${trigger}</p>
-<p><strong>Time (IST):</strong> ${now}</p>
-<p><strong>Priority:</strong> ${priority}</p>
-${isSuccess ? "<p><strong>Report:</strong> <a href='${reportUrl}'>Dependency Check Report</a></p>" : "<p><strong>Failed Stage:</strong> ${failedStage}<br><strong>Reason:</strong> ${reason}</p>"}
-<p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-</body></html>
-"""
-    def slackMsg = """\
-${icon} *${status}* - Build #${env.BUILD_NUMBER}
-• *Job:* ${env.JOB_NAME}
-• *Triggered By:* ${trigger}
-${isSuccess ? "• *Report:* ${reportUrl}" : "• *Failed Stage:* ${failedStage} — ${reason}"}
-• *Build URL:* ${env.BUILD_URL}
-"""
-
-    try {
-        mail(to: cfg.emailRecipients, subject: subject, body: emailBody, mimeType: 'text/html')
-    } catch (mailErr) { echo "⚠️ Email failed: ${mailErr}" }
-
-    try {
-        slackSend(
-            channel: cfg.slackChannel,
-            color: color,
-            message: slackMsg,
-            tokenCredentialId: cfg.slackTokenCredentialId
-        )
-    } catch (slackErr) { echo "⚠️ Slack failed: ${slackErr}" }
 }
