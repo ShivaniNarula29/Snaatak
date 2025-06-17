@@ -5,10 +5,10 @@ node {
         reportDir     : 'target',
         reportHtml    : 'dependency-check-report.html',
         cacheDir      : '/var/lib/jenkins/odc-db',
-        repoUrl       : 'https://github.com/snaatak-Downtime-Crew/frontend-api.git',
+        repoUrl       : 'https://github.com/snaatak-Downtime-Crew/employee-api.git',
         branch        : 'main',
         credentialsId : 'downtime_github',
-        projectName   : 'frontend-api'
+        projectName   : 'employee-api'
     ]
 
     def BUILD_TRIGGER = ''
