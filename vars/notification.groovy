@@ -30,14 +30,14 @@ def runStage(state, String stageName, Closure body) {
     return state
 }
 
-def notifyBuildStatus(state, String status, String customTitle = null) {
+def notifyBuildStatus(state, String status) {
     def isSuccess = (status == 'SUCCESS')
     def color = isSuccess ? 'good' : 'danger'
     def icon = isSuccess ? '✅' : '❌'
     def now = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone('Asia/Kolkata'))
     def jobUrl = "<a href=\"${env.BUILD_URL}\">${env.BUILD_URL}</a>"
 
-    def title = customTitle ?: "Build #${env.BUILD_NUMBER} - ${status}"
+    def title = "Build #${env.BUILD_NUMBER} - ${status}"
 
     def slackMsg = """\
 *${title}*
