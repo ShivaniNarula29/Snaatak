@@ -19,7 +19,7 @@ node {
     def SLACK_CREDENTIAL_ID = 'downtime-crew'
 
     try {
-        go(config)
+        godependencyscanning(config)
         BUILD_TRIGGER = currentBuild.getBuildCauses()?.getAt(0)?.userName ?: 'Auto-triggered'
         reportUrl = "${env.BUILD_URL}artifact/${config.reportDir}/${config.reportHtml}"
     } catch (err) {
