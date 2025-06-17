@@ -33,9 +33,9 @@ node {
             emailMessage = """
 ✅ Dependency Check Completed Successfully
 
-🔧 Job: ${env.JOB_NAME}
-👤 Triggered by: ${BUILD_TRIGGER}
-🔗 Build URL: ${env.BUILD_URL}
+Job: ${env.JOB_NAME}
+Triggered by: ${BUILD_TRIGGER}
+Build URL: ${env.BUILD_URL}
 
 📄 Report:
 - ${reportUrl}
@@ -43,9 +43,9 @@ node {
             slackMessage = """
 :white_check_mark: *Dependency Check SUCCESS - Build #${env.BUILD_NUMBER}*
 
-*🔧 Job:* `${env.JOB_NAME}`
-*👤 Triggered by:* ${BUILD_TRIGGER}
-*🔗 Job URL:* <${env.BUILD_URL}|Open Job>
+* Job:* `${env.JOB_NAME}`
+* Triggered by:* ${BUILD_TRIGGER}
+* Job URL:* <${env.BUILD_URL}|Open Job>
 
 📄 *Report:*
 - <${reportUrl}|Dependency Check Report>
@@ -55,20 +55,20 @@ node {
             emailMessage = """
 ❌ Dependency Check Failed
 
-🔧 Job: ${env.JOB_NAME}
-👤 Triggered by: ${BUILD_TRIGGER}
-⚠️ Priority: P1
-💥 Failed at: ${failedStage}
-🔗 Logs: ${env.BUILD_URL}
+ Job: ${env.JOB_NAME}
+ Triggered by: ${BUILD_TRIGGER}
+ Priority: P1
+ Failed at: ${failedStage}
+ Logs: ${env.BUILD_URL}
 """
             slackMessage = """
 :x: *Dependency Check FAILED - Build #${env.BUILD_NUMBER}*
 
-*🔧 Job:* `${env.JOB_NAME}`
-*👤 Triggered by:* ${BUILD_TRIGGER}
-*⚠️ Priority:* *P1*
-*💥 Failed at:* *${failedStage}*
-*🔗 Job URL:* <${env.BUILD_URL}|View Logs>
+* Job:* `${env.JOB_NAME}`
+* Triggered by:* ${BUILD_TRIGGER}
+* Priority:* *P1*
+* Failed at:* *${failedStage}*
+* Job URL:* <${env.BUILD_URL}|View Logs>
 """
         }
 
